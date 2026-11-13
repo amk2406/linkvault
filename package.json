@@ -1,0 +1,35 @@
+{
+  "name": "linkvault",
+  "version": "1.0.0",
+  "description": "**Copyright © 2026 AMK2406. All Rights Reserved.**",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "node --watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amk2406/linkvault.git"
+  },
+  "private": true,
+  "author": "Amk",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/amk2406/linkvault/issues"
+  },
+  "homepage": "https://github.com/amk2406/linkvault#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cache": "github:amk2406/cache",
+    "dotenv": "^18.0.10",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.4",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "file-json-db": "^1.6.0",
+    "helmet": "^8.3.0",
+    "nodemailer": "^10.5.0",
+    "socket.io": "^4.8.4",
+    "ua-parser": "github:amk2406/ua-parser"
+  }
+}
