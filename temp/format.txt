@@ -1,0 +1,231 @@
+recommended one
+
+
+linkvault/
+│
+├── public/
+│   ├── assets/
+│   │   ├── images/
+│   │   ├── icons/
+│   │   └── fonts/
+│   │
+│   └── favicon.ico
+│
+├── src/
+│   ├── client/
+│   │   ├── components/
+│   │   │   ├── navbar.js
+│   │   │   ├── sidebar.js
+│   │   │   ├── link-card.js
+│   │   │   ├── modal.js
+│   │   │   └── toast.js
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── home.js
+│   │   │   ├── dashboard.js
+│   │   │   ├── collections.js
+│   │   │   ├── favorites.js
+│   │   │   ├── settings.js
+│   │   │   └── login.js
+│   │   │
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── auth.js
+│   │   │   └── links.js
+│   │   │
+│   │   ├── styles/
+│   │   │   ├── main.css
+│   │   │   ├── variables.css
+│   │   │   ├── components.css
+│   │   │   └── responsive.css
+│   │   │
+│   │   └── utils/
+│   │       ├── validators.js
+│   │       ├── formatter.js
+│   │       └── helpers.js
+│   │
+│   ├── server/
+│   │   ├── config/
+│   │   │   ├── database.js
+│   │   │   └── environment.js
+│   │   │
+│   │   ├── routes/
+│   │   │   ├── auth.routes.js
+│   │   │   ├── links.routes.js
+│   │   │   ├── collections.routes.js
+│   │   │   └── users.routes.js
+│   │   │
+│   │   ├── controllers/
+│   │   │   ├── auth.controller.js
+│   │   │   ├── links.controller.js
+│   │   │   ├── collections.controller.js
+│   │   │   └── users.controller.js
+│   │   │
+│   │   ├── models/
+│   │   │   ├── user.model.js
+│   │   │   ├── link.model.js
+│   │   │   └── collection.model.js
+│   │   │
+│   │   ├── middleware/
+│   │   │   ├── auth.middleware.js
+│   │   │   ├── error.middleware.js
+│   │   │   └── validate.middleware.js
+│   │   │
+│   │   └── app.js
+│   │
+│   └── shared/
+│       └── constants.js
+│
+├── tests/
+│   ├── client/
+│   └── server/
+│
+├── docs/
+│   ├── API.md
+│   └── DATABASE.md
+│
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── README.md
+├── package.json
+└── server.js
+
+
+
+
+method two
+
+
+linkvault/
+│
+├── assets/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   ├── icons/
+│   └── fonts/
+│
+├── pages/
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── collections.html
+│   ├── favorites.html
+│   ├── settings.html
+│   └── login.html
+│
+├── scripts/
+│   ├── app.js
+│   ├── router.js
+│   ├── api.js
+│   ├── auth.js
+│   └── links.js
+│
+├── styles/
+│   ├── main.css
+│   ├── theme.css
+│   └── responsive.css
+│
+├── backend/
+│   ├── routes/
+│   ├── middleware/
+│   ├── controllers/
+│   └── server.js
+│
+├── index.html
+├── package.json
+├── README.md
+├── LICENSE
+└── .gitignore
+
+
+
+method 3
+
+
+linkvault/
+│
+├── src/
+│   ├── modules/
+│   │   ├── links/
+│   │   │   ├── links.js
+│   │   │   ├── links.css
+│   │   │   └── links.api.js
+│   │   │
+│   │   ├── collections/
+│   │   │   ├── collections.js
+│   │   │   └── collections.css
+│   │   │
+│   │   ├── favorites/
+│   │   │   └── favorites.js
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── auth.js
+│   │   │   └── auth.api.js
+│   │   │
+│   │   └── search/
+│   │       └── search.js
+│   │
+│   ├── core/
+│   │   ├── app.js
+│   │   ├── router.js
+│   │   ├── events.js
+│   │   └── config.js
+│   │
+│   ├── components/
+│   ├── utils/
+│   └── styles/
+│
+├── server/
+│   ├── api/
+│   ├── database/
+│   ├── middleware/
+│   └── server.js
+│
+├── public/
+├── tests/
+├── package.json
+├── README.md
+└── LICENSE
+
+
+
+method 5
+
+
+linkvault/
+│
+├── apps/
+│   ├── web/
+│   │   ├── public/
+│   │   ├── src/
+│   │   └── package.json
+│   │
+│   ├── api/
+│   │   ├── src/
+│   │   └── package.json
+│   │
+│   └── mobile/
+│       └── README.md
+│
+├── packages/
+│   ├── shared/
+│   ├── validators/
+│   ├── database/
+│   └── utils/
+│
+├── infrastructure/
+│   ├── deployment/
+│   └── database/
+│
+├── docs/
+│   ├── API.md
+│   ├── ARCHITECTURE.md
+│   └── CONTRIBUTING.md
+│
+├── scripts/
+├── tests/
+├── package.json
+├── README.md
+├── LICENSE
+└── .gitignore
