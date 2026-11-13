@@ -147,3 +147,11 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Data directories
+data
+database
+
+# Bat script files
+*.bat
+*.cmd
