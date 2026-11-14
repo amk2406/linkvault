@@ -37,9 +37,11 @@ app.set('trust proxy', 1);
 
 app.use(limiter, helmet(), express.urlencoded({extended: true}))
 app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static')))
-app.use(cookieParser)
+app.use(cookieParser())
 
-
+app.get('/', async (req, res) =>{
+    res.render('index', {})
+})
 
 
 
