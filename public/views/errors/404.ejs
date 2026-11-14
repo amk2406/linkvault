@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#FFB300" />
   <title>404 · Page Not Found · LinkVault</title>
+  <link rel="icon" href="icons/ico/logo.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/png/logo-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/png/logo-16x16.png">
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="icons/png/apple-tourch.png">
   <link rel="preconnect" href="style/font-icon/css/all.min.css" />
   <link rel="preconnect" href="style/font/inter-family.woff2" />
   <link href="style/font.css" rel="stylesheet" />
@@ -22,7 +27,15 @@
       </p>
       <div class="flex gap-3" style="justify-content: center;">
         <a href="/" class="btn btn-primary">Go Home</a>
-        <a href="/dashboard" class="btn btn-secondary">Dashboard</a>
+        <% try { %>
+          <% if (valid) { %>
+            <a href="/dashboard" class="btn btn-secondary">Dashboard</a>
+          <% } else{ %>
+            <a href="/auth/signin" class="btn btn-secondary">Sign In</a>  
+          <% } %>
+        <% } catch (error) { %>
+          <a href="/auth/signin" class="btn btn-secondary">Sign In</a>
+        <% } %>
       </div>
     </div>
   </div>
