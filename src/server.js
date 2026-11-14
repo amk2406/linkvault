@@ -40,9 +40,14 @@ app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pag
 app.use(cookieParser())
 
 app.get('/', async (req, res) =>{
-    res.render('index', {})
+    try {
+        res.status(200).sendFile(path.resolve('public', 'pages', 'index.html'))
+    } catch (error) {next(error)}
 })
 
+app.get('/404', async (req, res, next) =>{
+    res.render('errors/404',{})
+})
 
 
 httpapp.listen(config.port, config.host , ()=>{
