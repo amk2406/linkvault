@@ -1,0 +1,25 @@
+{
+  "name": "Link Vault",
+  "short_name": "link",
+  "icons": [
+    {
+      "src": "icons/png/logo-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/png/logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/png/logo-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#FFB300",
+  "background_color": "#FFFFFF",
+  "display": "standalone"
+}
