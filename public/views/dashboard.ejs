@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFB300" />
+  <title>Dashboard · LinkVault</title>
+  <link rel="stylesheet" href="/static/style/properties.css" />
+  <link rel="stylesheet" href="/static/style/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/dashboard" class="logo">
+        <span>Link</span>Vault
+      </a>
+      <nav class="nav">
+        <a href="/dashboard" class="nav-link active">Dashboard</a>
+        <a href="/links" class="nav-link">Links</a>
+        <a href="/auth/logout" class="nav-link">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-link active">
+          <span>📊</span> Overview
+        </a>
+        <a href="/links" class="sidebar-link">
+          <span>🔗</span> My Links
+        </a>
+        <a href="/links/new" class="sidebar-link">
+          <span>➕</span> Create Link
+        </a>
+        <a href="/settings" class="sidebar-link">
+          <span>⚙️</span> Settings
+        </a>
+        <a href="/auth/logout" class="sidebar-link">
+          <span>🚪</span> Logout
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">
+        Welcome back<%= typeof user !== 'undefined' && user.name ? ', ' + user.name : '' %>. Here's what's happening with your links.
+      </p>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Links</div>
+          <div class="stat-value"><%= typeof stats !== 'undefined' ? stats.total || 0 : 0 %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Clicks (30d)</div>
+          <div class="stat-value"><%= typeof stats !== 'undefined' ? stats.clicks || 0 : 0 %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Links</div>
+          <div class="stat-value"><%= typeof stats !== 'undefined' ? stats.active || 0 : 0 %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">This Month</div>
+          <div class="stat-value"><%= typeof stats !== 'undefined' ? stats.thisMonth || 0 : 0 %></div>
+        </div>
+      </div>
+
+      <!-- Quick actions + recent -->
+      <div class="card" style="margin-bottom: var(--space-6);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-4);">
+          <h2 style="font-size: var(--font-size-lg); font-weight: 600;">Quick Actions</h2>
+        </div>
+        <div class="flex gap-3" style="flex-wrap: wrap;">
+          <a href="/links/new" class="btn btn-primary">Create New Link</a>
+          <a href="/links" class="btn btn-secondary">View All Links</a>
+        </div>
+      </div>
+
+      <!-- Recent links preview -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-4);">
+          <h2 style="font-size: var(--font-size-lg); font-weight: 600;">Recent Links</h2>
+          <a href="/links" style="font-size: var(--font-size-sm);">View all →</a>
+        </div>
+
+        <% if (typeof recentLinks !== 'undefined' && recentLinks.length > 0) { %>
+          <table class="links-table">
+            <thead>
+              <tr>
+                <th>Short</th>
+                <th>Destination</th>
+                <th>Clicks</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recentLinks.forEach(function(link) { %>
+                <tr>
+                  <td><a href="/<%= link.slug %>" class="link-url">/<%= link.slug %></a></td>
+                  <td class="link-url" title="<%= link.url %>"><%= link.url %></td>
+                  <td><%= link.clicks || 0 %></td>
+                  <td class="text-muted"><%= link.createdAt || '—' %></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } else { %>
+          <div class="empty-state">
+            <h3>No links yet</h3>
+            <p>Create your first short link to get started.</p>
+            <a href="/links/new" class="btn btn-primary mt-4">Create Link</a>
+          </div>
+        <% } %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

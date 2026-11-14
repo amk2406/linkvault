@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFB300" />
+  <title>Sign Up · LinkVault</title>
+  <link rel="stylesheet" href="/static/style/properties.css" />
+  <link rel="stylesheet" href="/static/style/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="page-center">
+    <div class="card card-elevated auth-card">
+      <div class="auth-header">
+        <div class="logo" style="justify-content:center; margin-bottom: var(--space-4);">
+          <span>Link</span>Vault
+        </div>
+        <h1>Create account</h1>
+        <p>Start shortening and managing links</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="form-error" style="background: rgba(229,57,53,0.1); padding: var(--space-3); border-radius: var(--radius-md); margin-bottom: var(--space-5); text-align:center;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/auth/signup" method="POST" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">Full name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input"
+            placeholder="John Doe"
+            required
+            autocomplete="name"
+            value="<%= typeof name !== 'undefined' ? name : '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+            value="<%= typeof email !== 'undefined' ? email : '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="At least 8 characters"
+            required
+            autocomplete="new-password"
+            minlength="8"
+          />
+          <p class="form-hint">Use at least 8 characters with a mix of letters and numbers</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm">Confirm password</label>
+          <input
+            type="password"
+            id="confirm"
+            name="confirm"
+            class="form-input"
+            placeholder="••••••••"
+            required
+            autocomplete="new-password"
+            minlength="8"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-checkbox">
+            <input type="checkbox" name="terms" value="1" required checked />
+            I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Create Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account?
+        <a href="/auth/signin">Sign in</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

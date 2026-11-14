@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFB300" />
+  <title>LinkVault · Simple URL Shortener</title>
+  <link rel="stylesheet" href="/static/style/properties.css" />
+  <link rel="stylesheet" href="/static/style/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .hero {
+      background: var(--bg-hero);
+      color: var(--text-inverse);
+      padding: var(--hero-padding-y) var(--space-6);
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-4);
+      line-height: 1.15;
+    }
+    .hero p {
+      font-size: var(--font-size-lg);
+      opacity: 0.95;
+      max-width: 540px;
+      margin: 0 auto var(--space-8);
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero .btn-primary {
+      background: #fff;
+      color: var(--gold-800);
+    }
+    .hero .btn-primary:hover {
+      background: var(--gold-50);
+      color: var(--gold-900);
+    }
+    .hero .btn-secondary {
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.7);
+      color: #fff;
+    }
+    .hero .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: #fff;
+    }
+    .features {
+      padding: var(--section-padding-y) var(--space-6);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-6);
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      text-align: center;
+    }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-4);
+    }
+    .feature-card h3 {
+      font-size: var(--font-size-lg);
+      margin-bottom: var(--space-2);
+    }
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: var(--font-size-sm);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <span>Link</span>Vault
+      </a>
+      <nav class="nav">
+        <a href="/auth/signin" class="nav-link">Sign In</a>
+        <a href="/auth/signup" class="btn btn-primary btn-sm">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Shorten. Share. Track.</h1>
+    <p>
+      Create clean short links, manage them in one place, and see how they perform.
+      Simple, fast, and private.
+    </p>
+    <div class="hero-actions">
+      <a href="/auth/signup" class="btn btn-primary btn-lg">Create free account</a>
+      <a href="/auth/signin" class="btn btn-secondary btn-lg">Sign In</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning fast</h3>
+        <p>Generate short links instantly and redirect with minimal latency.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Click analytics</h3>
+        <p>See how many times each link is clicked and when.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Private by default</h3>
+        <p>Your links stay under your control. No public directory.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding: var(--space-8) var(--space-6); text-align: center; color: var(--text-muted); font-size: var(--font-size-sm); border-top: 1px solid var(--border-color);">
+    © 2026 LinkVault · Built with care
+  </footer>
+</body>
+</html>

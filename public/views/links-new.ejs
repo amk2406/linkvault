@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFB300" />
+  <title>Create Link · LinkVault</title>
+  <link rel="stylesheet" href="/static/style/properties.css" />
+  <link rel="stylesheet" href="/static/style/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/dashboard" class="logo">
+        <span>Link</span>Vault
+      </a>
+      <nav class="nav">
+        <a href="/dashboard" class="nav-link">Dashboard</a>
+        <a href="/links" class="nav-link">Links</a>
+        <a href="/auth/logout" class="nav-link">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="/dashboard" class="sidebar-link">
+          <span>📊</span> Overview
+        </a>
+        <a href="/links" class="sidebar-link">
+          <span>🔗</span> My Links
+        </a>
+        <a href="/links/new" class="sidebar-link active">
+          <span>➕</span> Create Link
+        </a>
+        <a href="/settings" class="sidebar-link">
+          <span>⚙️</span> Settings
+        </a>
+        <a href="/auth/logout" class="sidebar-link">
+          <span>🚪</span> Logout
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="page-title">Create New Link</h1>
+      <p class="page-subtitle">Shorten a long URL and start tracking clicks.</p>
+
+      <div class="card" style="max-width: 580px;">
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="form-error" style="background: rgba(229,57,53,0.1); padding: var(--space-3); border-radius: var(--radius-md); margin-bottom: var(--space-5);">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <form action="/links" method="POST">
+          <!-- Destination URL -->
+          <div class="form-group">
+            <label class="form-label" for="url">Destination URL <span class="text-danger">*</span></label>
+            <input
+              type="url"
+              id="url"
+              name="url"
+              class="form-input"
+              placeholder="https://example.com/very/long/path"
+              required
+              value="<%= typeof url !== 'undefined' ? url : '' %>"
+            />
+          </div>
+
+          <!-- Title -->
+          <div class="form-group">
+            <label class="form-label" for="title">Link Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-input"
+              placeholder="My cool link"
+              maxlength="120"
+              value="<%= typeof title !== 'undefined' ? title : '' %>"
+            />
+            <p class="form-hint">Optional. Helps you identify the link later.</p>
+          </div>
+
+          <!-- Custom slug -->
+          <div class="form-group">
+            <label class="form-label" for="slug">Custom short code</label>
+            <input
+              type="text"
+              id="slug"
+              name="slug"
+              class="form-input"
+              placeholder="my-link"
+              pattern="[a-zA-Z0-9_-]+"
+              maxlength="32"
+              value="<%= typeof slug !== 'undefined' ? slug : '' %>"
+            />
+            <p class="form-hint">Leave empty to generate a random code. Only letters, numbers, - and _</p>
+          </div>
+
+          <!-- Expiration -->
+          <div class="form-group">
+            <label class="form-label" for="expires">Expiration</label>
+            <select id="expires" name="expires" class="form-input">
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+              <option value="30" selected>30 days (default)</option>
+              <option value="60">60 days</option>
+              <option value="90">90 days</option>
+              <option value="180">6 months</option>
+              <option value="365">1 year</option>
+              <option value="0">Never expire</option>
+            </select>
+            <p class="form-hint">After this period the link will stop working.</p>
+          </div>
+
+          <!-- Custom expiry date (shown when needed) -->
+          <div class="form-group" id="custom-expiry-group" style="display: none;">
+            <label class="form-label" for="expiresAt">Custom expiry date</label>
+            <input
+              type="date"
+              id="expiresAt"
+              name="expiresAt"
+              class="form-input"
+              min=""
+            />
+          </div>
+
+          <!-- Password protection -->
+          <div class="form-group">
+            <label class="form-label" for="password">Password protection (optional)</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="Leave empty for public access"
+              autocomplete="new-password"
+            />
+            <p class="form-hint">Visitors must enter this password to open the link.</p>
+          </div>
+
+          <!-- Max clicks -->
+          <div class="form-group">
+            <label class="form-label" for="maxClicks">Max clicks (optional)</label>
+            <input
+              type="number"
+              id="maxClicks"
+              name="maxClicks"
+              class="form-input"
+              placeholder="Unlimited"
+              min="1"
+              max="1000000"
+            />
+            <p class="form-hint">Link will deactivate after this many clicks.</p>
+          </div>
+
+          <!-- Notes -->
+          <div class="form-group">
+            <label class="form-label" for="notes">Notes (optional)</label>
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-input"
+              rows="3"
+              placeholder="Internal notes about this link..."
+              style="height: auto; padding: var(--space-3) var(--input-padding-x); resize: vertical;"
+              maxlength="500"
+            ><%= typeof notes !== 'undefined' ? notes : '' %></textarea>
+          </div>
+
+          <!-- Active toggle -->
+          <div class="form-group">
+            <label class="form-checkbox">
+              <input type="checkbox" name="active" value="1" checked />
+              Link is active
+            </label>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button type="submit" class="btn btn-primary">Create Link</button>
+            <a href="/links" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Set min date for custom expiry to tomorrow
+    const expiresAt = document.getElementById('expiresAt');
+    if (expiresAt) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      expiresAt.min = tomorrow.toISOString().split('T')[0];
+    }
+
+    // Optional: show custom date picker if user wants more control later
+    // Currently using the select for simplicity
+  </script>
+</body>
+</html>

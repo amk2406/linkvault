@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFB300" />
+  <title>Sign In · LinkVault</title>
+  <link rel="stylesheet" href="/static/style/properties.css" />
+  <link rel="stylesheet" href="/static/style/base.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="page-center">
+    <div class="card card-elevated auth-card">
+      <div class="auth-header">
+        <div class="logo" style="justify-content:center; margin-bottom: var(--space-4);">
+          <span>Link</span>Vault
+        </div>
+        <h1>Welcome back</h1>
+        <p>Sign in to manage your links</p>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="form-error" style="background: rgba(229,57,53,0.1); padding: var(--space-3); border-radius: var(--radius-md); margin-bottom: var(--space-5); text-align:center;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/auth/signin" method="POST" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="you@example.com"
+            required
+            autocomplete="email"
+            value="<%= typeof email !== 'undefined' ? email : '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+            minlength="6"
+          />
+        </div>
+
+        <div class="form-group" style="display:flex; justify-content:space-between; align-items:center;">
+          <label class="form-checkbox">
+            <input type="checkbox" name="remember" value="1" />
+            Remember me
+          </label>
+          <a href="/auth/forgot" style="font-size: var(--font-size-sm);">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Sign In
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account?
+        <a href="/auth/signup">Create one</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
