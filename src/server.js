@@ -2,17 +2,19 @@ const path = require('path')
 const http = require('http');
 require('dotenv').config({quiet: true})
 
-const express = require('express');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
+const express = require('express');
 const logger = require('node-logger');
+const ua = require('ua-parser')
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 
 const app = express()
 const httpapp = http.createServer(app)
 
 const log = console.log
+const logerr = console.error
 const env = process.env
 const config = {
     logpath: env.LOGPATH || 'logs',
@@ -21,40 +23,27 @@ const config = {
     port: env.PORT || 4041, host: env.HOST || '0.0.0.0'
 }
 
+const { getRetrySeconds } = require('./helpers/timer')
+const auth = require('./route/auth.js')
+
 logger({ path: path.resolve(config.logpath),
   showTimestampInConsole: false, exitOnUnexpected: false,
 });
 
-function getRetrySeconds(value, fallback = 300) {
-  if (!value) return fallback;
-
-  // Retry-After can be a number of seconds.
-  const seconds = Number(value);
-
-  if (Number.isFinite(seconds) && seconds > 0) {
-    return Math.ceil(seconds);
-  }
-
-  // Or it can be an HTTP date.
-  const date = Date.parse(value);
-
-  if (!Number.isNaN(date)) {
-    return Math.max(1, Math.ceil((date - Date.now()) / 1000));
-  }
-
-  return fallback;
-}
-
 const limiter = rateLimit({
 	windowMs: config.windowms,
 	limit: config.ratelimit,
-    handler: async (req, res)=>{
-        
-        if (req.method.toLowerCase() === 'get') {
-            const retryAfter = res.getHeader("Retry-After");
-            return res.status(429).render('errors/429', {retryAfterSeconds: getRetrySeconds(retryAfter, 300)})
-        }
+  handler: async (req, res, next)=>{
+    try {
+      if (req.method.toLowerCase() === 'get') {
+        const retryAfter = res.getHeader("Retry-After");
+        return res.status(429).render('errors/429', {retryAfterSeconds: getRetrySeconds(retryAfter, 300)})
+      }
+    } catch (error) {
+      error.fromstatic = true
+      next(error)
     }
+  }
 })
 
 
@@ -72,23 +61,72 @@ app.use(helmet({
   },
 }));
 app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static')))
-app.use(cookieParser())
+app.use(cookieParser(), async (req, res, next) => {
+  req.userAgent = ua.parse(req.headers['user-agent'])
+  next()
+})
 
-app.get('/', async (req, res) =>{
+app.get('/', async (req, res, next) =>{
     try {
         res.status(200).sendFile(path.resolve('public', 'pages', 'index.html'))
-    } catch (error) {next(error)}
+    } catch (error) {
+      error.fromstatic = true
+      next(error)
+    }
 })
 
-app.get('/400', async (req, res, next) =>{
-    res.render('errors/400', {isvalid: false})
+app.use(async (req, res, next) => {
+  if (req.userAgent && req.userAgent.isBot) {
+    return res.status(403).render('errors/403', {})
+  } else{
+    next()
+  }
 })
 
+app.use('/auth', auth)
 
-httpapp.listen(config.port, config.host , ()=>{
-    log(`> Server is up and running on port: ${config.port} and host: ${config.host}`)
+
+
+
+
+
+app.use(async (req, res, next) =>{
+  try {
+    if(req.method.toLowerCase() === 'get') {
+      const valid = req.userid ? true : false
+      return res.status(404).render('errors/404', {valid})
+    }   
+  } catch (error) {
+    next(error)
+  }
 })
 
+app.use(async (err, req, res, next) => {
+  try {
+    log(req.url)
+    if(req.method.toLowerCase() === 'get') {
+      log(err)
+      if (err.fromstatic) {
+        return res.status(500).render('errors/error', {})
+      }
+      return res.status(500).render('errors/500', {})
+    } else {
+      if (req.url === ('/auth/signin') || req.url === ( '/auth/signup')) {
+        return res.status(500).render('errors/error', {})
+      }
+    }
+  } catch (error) {
+    
+  }
+})
+httpapp.listen(config.port, config.host , (err)=>{
+  if (err) logerr('[HTTP ERR]', err)
+    log(`> [HTTP] Server is up and running on port: ${config.port} and host: ${config.host}`)
+})
+
+httpapp.on('error', async (err) =>{
+  logerr('[HTTP ERR]', err)
+})
 
 const killcode = ['uncaughtException', 'uncaughtExceptionMonitor', 'unhandledRejection', 'rejectionHandled']
 killcode.forEach(code =>{
