@@ -1,4 +1,5 @@
 const validator = require('../helpers/input.validator');
+const random = require('../helpers/generator/random').randomHex
 
 
 const validatSignin = async (req, res, next) => {
@@ -11,8 +12,7 @@ const validatSignin = async (req, res, next) => {
 }
 
 const validatSignup = async (req, res, next) => {
-    try {
-        const {name, email, password, confirm, terms = true} = req.body || {}
+    try {const {name, email, password, confirm, terms = true} = req.body || {}
         if (!name || name.trim() === '') return res.status(400).render('auth/signup', {error: "Name is required and cannot be empty."})
         if (!email) {
             return res.status(400).render('auth/signup', {error: "Email is required and cannot be empty."})
@@ -29,8 +29,8 @@ const validatSignup = async (req, res, next) => {
         if (!confirm || typeof confirm !== 'string') {
             return res.status(400).render('auth/signup', {error: "Confirm your password to Continue."})
         }
-        if (password.length > 8) {
-            return res.status(400).render('auth/signup', {error: "Password length most be 8 characters length."})
+        if (password.length <= 8) {
+            return res.status(400).render('auth/signup', {error: "Password length most be at least 8 characters length."})
         }
         if (password !== confirm) {
             return res.status(400).render('auth/signup', {error: "Password and Confirmation is not the same."})
@@ -38,13 +38,17 @@ const validatSignup = async (req, res, next) => {
         if (!terms) {
             return res.status(400).render('auth/signup', {error: "Agree with the terms and condition to continue."})
         }
+        const userid = random(8)+ random(3)
         const userdata = {
+            userid: 'usr:'+userid,
             name: name.trimStart().trimEnd(),
-            email: email.trim(),
-            isVerify: false
+            email: email.trim(), isVerify: false
         }
+        req.userid = 'usr:'+userid
+        req.userdata = userdata
+        if (next)next();
     } catch (error) {
-        error.fromstatic = true
+        error.fromstatic = true;
         next(error)
     }
 }
