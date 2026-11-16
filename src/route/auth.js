@@ -1,6 +1,6 @@
 const express = require('express');
 const limit = require('express-rate-limit');
-const validator = require('express-validator');
+const {validatSignin, validatSignup} = require('../services/form.validator');
 
 const auth = express.Router()
 
@@ -38,13 +38,13 @@ const ratelimit = limit({
 })
 
 
-auth.post('/signin', ratelimit, async (req, res, next) => {
+auth.post('/signin', ratelimit, validatSignin, async (req, res, next) => {
     
 })
 
-auth.post('/signup', ratelimit, async (req, res, next) => {
+auth.post('/signup', ratelimit, validatSignup, async (req, res, next) => {
     try {
-        a
+
     } catch (error) {
         error.fromstatic = true
         next(error)

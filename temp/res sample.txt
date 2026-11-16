@@ -1,0 +1,44 @@
+{
+  "error": {
+    "code": "permission_denied",
+    "message": "You don't have permission to perform this action.",
+    "status": 403,
+    "request_id": "8f3a-2210",
+    "retryable": false
+  }
+}
+
+
+
+{
+  "error": {
+    "code": "forbidden",
+    "message": "You don't have access to this resource.",
+    "status": 403,
+    "retryable": false
+  }
+}
+
+
+
+{
+  "error": {
+    "code": "unauthenticated",
+    "message": "Please sign in to continue.",
+    "status": 401,
+    "retryable": false
+  }
+}
+
+
+
+{
+  "error": {
+    "code": "insufficient_permissions",
+    "message": "Your account doesn't have access to this resource. Contact your administrator if you believe this is a mistake.",
+    "status": 403,
+    "required_scope": "admin:write",
+    "request_id": "8f3a-2210",
+    "retryable": false
+  }
+}

@@ -33,6 +33,7 @@
     "node-logger": "github:amk2406/node-logger",
     "nodemailer": "^10.5.0",
     "socket.io": "^4.8.4",
-    "ua-parser": "github:amk2406/ua-parser"
+    "ua-parser": "github:amk2406/ua-parser",
+    "validator": "^13.15.35"
   }
 }
