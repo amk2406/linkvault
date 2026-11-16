@@ -1,0 +1,55 @@
+const validator = require('../helpers/input.validator');
+
+
+const validatSignin = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        error.fromstatic = true
+        next(error)
+    }
+}
+
+const validatSignup = async (req, res, next) => {
+    try {
+        const {name, email, password, confirm, terms = true} = req.body || {}
+        if (!name || name.trim() === '') return res.status(400).render('auth/signup', {error: "Name is required and cannot be empty."})
+        if (!email) {
+            return res.status(400).render('auth/signup', {error: "Email is required and cannot be empty."})
+        }
+        if (typeof email !== 'string') {
+            return res.status(400).render('auth/signup', {error: "Email most be a valid and cannot be empty."})
+        }
+        if (!validator.isValidEmail(email)) {
+            return res.status(400).render('auth/signup', {error: "Email most be a valid Email address and cannot be empty."})
+        }
+        if (!password || typeof password !== 'string') {
+            return res.status(400).render('auth/signup', {error: "Password is required y."})
+        }
+        if (!confirm || typeof confirm !== 'string') {
+            return res.status(400).render('auth/signup', {error: "Confirm your password to Continue."})
+        }
+        if (password.length > 8) {
+            return res.status(400).render('auth/signup', {error: "Password length most be 8 characters length."})
+        }
+        if (password !== confirm) {
+            return res.status(400).render('auth/signup', {error: "Password and Confirmation is not the same."})
+        }
+        if (!terms) {
+            return res.status(400).render('auth/signup', {error: "Agree with the terms and condition to continue."})
+        }
+        const userdata = {
+            name: name.trimStart().trimEnd(),
+            email: email.trim(),
+            isVerify: false
+        }
+    } catch (error) {
+        error.fromstatic = true
+        next(error)
+    }
+}
+
+module.exports = {
+    validatSignin,
+    validatSignup
+}
