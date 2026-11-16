@@ -1,6 +1,7 @@
 const express = require('express');
 const limit = require('express-rate-limit');
 const {validatSignin, validatSignup} = require('../services/form.validator');
+const users = require('../db').urltracker
 
 const auth = express.Router()
 
@@ -44,6 +45,18 @@ auth.post('/signin', ratelimit, validatSignin, async (req, res, next) => {
 
 auth.post('/signup', ratelimit, validatSignup, async (req, res, next) => {
     try {
+        const userid = req.userid || req.userdata.userid
+        const userdata = req.userdata
+        const email = userdata.email
+        const isfoundemail = await users.findOneAsync({email})
+        if(email) return res.status(400).render('auth/signup', {error: 'Email already exist, try another one.'})
+        
+        await users.insertAsync(userdata).catch(error =>{
+            console.log(error)
+            return res.status(500).render('auth/signup', {error: `Something went wrong while Process you Request — Your request didn't go through, Please try again in a few moments.`})
+        }).then(inserted =>{
+            return res.status(200).redirect('/dashboard')
+        })
 
     } catch (error) {
         error.fromstatic = true
