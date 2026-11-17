@@ -42,7 +42,8 @@ const validatSignup = async (req, res, next) => {
         const userdata = {
             userid: 'usr:'+userid,
             name: name.trimStart().trimEnd(),
-            email: email.trim(), isVerify: false
+            email: email.trim(), password,
+            isVerify: false
         }
         req.userid = 'usr:'+userid
         req.userdata = userdata
