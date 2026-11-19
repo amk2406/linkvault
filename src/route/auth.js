@@ -1,7 +1,10 @@
 const express = require('express');
 const limit = require('express-rate-limit');
 const {validatSignin, validatSignup} = require('../services/form.validator');
-const users = require('../db').urltracker
+const users = require('../db').users
+const {createSession, removeSession, renewSession} = require('../services/session.manager')
+const { hash, compare} = require('../services/password.manager')
+
 
 const auth = express.Router()
 
@@ -39,8 +42,30 @@ const ratelimit = limit({
 })
 
 
-auth.post('/signin', ratelimit, validatSignin, async (req, res, next) => {
-    
+auth.post('/signin', ratelimit, removeSession, validatSignin, async (req, res, next) => {
+    try {
+        const {email, password, remember} = req.userdata || {};
+        if (!email || !password) {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})            
+        }
+        const result = await users.findOneAsync({email})
+        if (!result) {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})            
+        }
+        const validpass = await compare(password, result.password)
+        if (!validpass) {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})
+        }
+        if (!req.allowsession || !remember) {
+            return res.status(400).render('auth/signin', {error: "Cheched on Remember me to continue."})
+        }
+        req.userid = result.userid
+        await createSession(req, res)
+        return res.status(200).redirect('/dashboard')
+    } catch (error) {
+        error.fromstatic = true
+        next(error)
+    }
 })
 
 auth.post('/signup', ratelimit, validatSignup, async (req, res, next) => {
@@ -49,15 +74,16 @@ auth.post('/signup', ratelimit, validatSignup, async (req, res, next) => {
         const userdata = req.userdata
         const email = userdata.email
         const isfoundemail = await users.findOneAsync({email})
-        if(email) return res.status(400).render('auth/signup', {error: 'Email already exist, try another one.'})
-        
+        if(isfoundemail) return res.status(400).render('auth/signup', {error: 'Email already exist, try another one.'})
+        const password = userdata.password
+        userdata.password = await hash(password)
         await users.insertAsync(userdata).catch(error =>{
             console.log(error)
             return res.status(500).render('auth/signup', {error: `Something went wrong while Process you Request — Your request didn't go through, Please try again in a few moments.`})
-        }).then(inserted =>{
-            return res.status(200).redirect('/dashboard')
+        }).then(async (inserted) =>{
+            await createSession(req, res)
+            return res.status(302).redirect('/dashboard')
         })
-
     } catch (error) {
         error.fromstatic = true
         next(error)

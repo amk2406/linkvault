@@ -25,7 +25,8 @@ const config = {
 
 const { getRetrySeconds } = require('./helpers/timer')
 const auth = require('./route/auth.js')
-
+const {validateSession, requireAuth} = require('./services/session.manager.js')
+const dashboard = require('./route/dashboard')
 logger({ path: path.resolve(config.logpath),
   showTimestampInConsole: false, exitOnUnexpected: false,
 });
@@ -62,8 +63,7 @@ app.use(helmet({
 }));
 app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static')))
 app.use(cookieParser(), async (req, res, next) => {
-  req.userAgent = ua.parse(req.headers['user-agent'])
-  next()
+  req.userAgent = ua.parse(req.headers['user-agent']); next();
 })
 
 app.get('/', async (req, res, next) =>{
@@ -85,9 +85,17 @@ app.use(async (req, res, next) => {
 
 app.use('/auth', auth)
 
+app.use(validateSession, express.static(path.resolve('public', 'assets/')), async (req, res, next) =>{
+  try {
+    if (!req.userid)res.status(400).redirect('/auth/signin')
+    next()
+  } catch (error) {
+    error.fromstatic = true
+    next(error)
+  }
+})
 
-
-
+app.use(dashboard)
 
 
 app.use(async (req, res, next) =>{
@@ -103,9 +111,8 @@ app.use(async (req, res, next) =>{
 
 app.use(async (err, req, res, next) => {
   try {
-    log(req.url)
+    log(err)
     if(req.method.toLowerCase() === 'get') {
-      log(err)
       if (err.fromstatic) {
         return res.status(500).render('errors/error', {})
       }
@@ -113,12 +120,17 @@ app.use(async (err, req, res, next) => {
     } else {
       if (req.url === ('/auth/signin') || req.url === ( '/auth/signup')) {
         return res.status(500).render('errors/error', {})
+      } else {
+        return res.status(500).json({success: false, status: 500, error: 'INTERNAL_ERR', message: 'Something went wrong while processing your request, Please try again in a few moments'})
       }
+
     }
   } catch (error) {
-    
+    log('[EXP ERR] error route midleware', error)
   }
 })
+
+
 httpapp.listen(config.port, config.host , (err)=>{
   if (err) logerr('[HTTP ERR]', err)
     log(`> [HTTP] Server is up and running on port: ${config.port} and host: ${config.host}`)
