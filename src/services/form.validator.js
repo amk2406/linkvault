@@ -4,7 +4,26 @@ const random = require('../helpers/generator/random').randomHex
 
 const validatSignin = async (req, res, next) => {
     try {
-        
+        const {email, password, remember} = req.body || {}
+        if (!email || email.trim() === '') {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})
+        }
+        if (typeof email !== 'string') {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})
+        }
+        if (!validator.isValidEmail(email)) {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})
+        }
+        if (!password || typeof password !== 'string') {
+            return res.status(400).render('auth/signin', {error: "Invalid email address or password."})
+        }
+        if (remember === '1' || remember === 'true') req.allowsession = true;
+        req.userdata = {
+            email: email.trim(),
+            password: password,
+            remember
+        }
+        next()
     } catch (error) {
         error.fromstatic = true
         next(error)

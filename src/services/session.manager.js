@@ -120,7 +120,7 @@ async function validateSession(req, res, next) {
     const { sessid, sesstoken } = req.cookies || {};
 
     if (!sessid || !sesstoken) {
-      if (typeof next === 'function') return next();
+      if (typeof next === 'function') return res.status(400).redirect('/auth/signin');
       return;
     }
 
@@ -130,7 +130,7 @@ async function validateSession(req, res, next) {
       // session gone → clear cookies
       res.clearCookie('sessid');
       res.clearCookie('sesstoken');
-      if (typeof next === 'function') return next();
+      if (typeof next === 'function') return res.status(400).redirect('/auth/signin');;
       return;
     }
 
@@ -139,7 +139,7 @@ async function validateSession(req, res, next) {
       store.delete(sessid);
       res.clearCookie('sessid');
       res.clearCookie('sesstoken');
-      if (typeof next === 'function') return next();
+      if (typeof next === 'function') return res.status(400).redirect('/auth/signin');;
       return;
     }
 
@@ -155,7 +155,7 @@ async function validateSession(req, res, next) {
       store.delete(sessid);
       res.clearCookie('sessid');
       res.clearCookie('sesstoken');
-      if (typeof next === 'function') return next();
+      if (typeof next === 'function') return res.status(400).redirect('/auth/signin');;
       return;
     }
 
@@ -165,7 +165,7 @@ async function validateSession(req, res, next) {
       store.delete(sessid);
       res.clearCookie('sessid');
       res.clearCookie('sesstoken');
-      if (typeof next === 'function') return next();
+      if (typeof next === 'function') return res.status(400).redirect('/auth/signin');;
       return;
     }
 
