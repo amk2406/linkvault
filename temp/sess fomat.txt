@@ -1,0 +1,123 @@
+{
+  "sid": "sess_...",      // session id
+  "uid": "usr_...",       // user id
+  "exp": 1731001800,      // expiry (seconds, JWT convention)
+  "iat": 1731000000,      // issued at (seconds)
+  "jti": "tok_...",       // unique token id (for revocation)
+  "ver": 1                // schema version
+}
+
+{
+  "rol": "admin",          // role — only if you authorize client-side (careful!)
+  "scp": ["read","write"], // scopes — same caveat
+  "ip":  "1.2.3.4",        // bind to IP (breaks mobile users — usually skip)
+  "ua":  "a1b2c3",         // hashed user-agent (lighter than IP binding)
+  "csrf": "rand_...",      // CSRF token if not using SameSite
+  "ref":  "sess_...",      // parent session (for refresh flows)
+}
+
+
+Naming rules
+3–4 chars where possible — cookies travel on every request; shorter = less overhead.
+
+Follow JWT conventions (exp, iat, jti, sub, iss, aud) — free interop if you ever switch.
+
+No secrets. The payload is signed, not hidden — users can read it. Never put passwords, API keys, or sensitive PII.
+
+Never trust client-side claims for authorization. If rol: "admin" is in the cookie, a user can't change it (signature), but if your signing key leaks, they can forge it. Keep authorization server-side where possible.
+
+Version it (ver: 1) so old cookies can be rejected cleanly after a schema change.
+
+Identity / session
+Field	Meaning
+sessionId	unique session id
+sessionToken	the signed token itself
+userId	owner of the session
+accountId	account/org the user acts under
+tenantId	multi-tenant scope
+deviceId	device fingerprint/id
+clientId	OAuth client / app id
+connectionId	websocket or socket id
+
+Lifetime / timing
+Field	Meaning
+issuedAt	when the cookie was created (epoch)
+expiresAt	when it becomes invalid
+lastSeenAt	last activity timestamp
+refreshedAt	last token refresh
+createdAt	record creation time
+updatedAt	record update time
+absoluteExpiry	hard cap regardless of activity
+idleTimeout	inactivity limit
+
+Security / verification
+Field	Meaning
+tokenId	unique id of this token (for revocation)
+tokenVersion	bump to invalidate all old tokens
+signature	HMAC/signature of the payload
+algorithm	signing algorithm used
+keyId	which signing key was used (rotation)
+csrfToken	anti-CSRF token
+nonce	one-time random value
+issuedBy	issuer identifier
+audience	intended recipient
+scope	permissions granted
+roles	role list
+permissions	fine-grained permissions
+mfaVerified	whether 2FA passed
+mfaMethod	totp / webauthn / sms
+authLevel	strength of authentication
+rememberMe	long-lived session flag
+Context / binding
+Field	Meaning
+ipAddress	client IP at issue
+userAgent	raw or hashed UA
+userAgentHash	hashed UA for binding
+locale	language/region
+timezone	client TZ
+platform	os/browser platform
+deviceName	human-readable device label
+origin	request origin
+referrer	where the session started
+requestId	correlation id for the issuing request
+Schema / compatibility
+Field	Meaning
+version	payload schema version
+tokenType	e.g. session, refresh, access
+format	encoding format
+encoding	base64url, json, etc.
+compressed	whether payload is compressed
+State / app data
+Field	Meaning
+payload	app-specific data blob
+metadata	free-form metadata
+preferences	user prefs snapshot
+flags	feature flags
+context	arbitrary request context
+returnTo	post-login redirect
+step	current flow step (e.g. MFA)
+A balanced, meaningful set
+If you want readable but not bloated, pick something like:
+
+json
+{
+  "version": 1,
+  "sessionId": "sess_...",
+  "sessionToken": "tok_...",
+  "userId": "usr_...",
+  "accountId": "acc_...",
+  "issuedAt": 1731000000,
+  "expiresAt": 1731001800,
+  "lastSeenAt": 1731000000,
+  "tokenId": "jti_...",
+  "tokenVersion": 3,
+  "scope": ["read", "write"],
+  "roles": ["user"],
+  "mfaVerified": true,
+  "ipAddress": "1.2.3.4",
+  "userAgentHash": "a1b2c3",
+  "locale": "en-NG",
+  "returnTo": "/dashboard"
+}
+Naming rules for "meaningful"
+camelCase — matches JS, reads naturally: 
