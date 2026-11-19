@@ -97,7 +97,7 @@ app.use(validateSession, express.static(path.resolve('public', 'assets/')), asyn
 
 app.use(dashboard)
 
-
+console.log('view directory', app.get('views'))
 app.use(async (req, res, next) =>{
   try {
     if(req.method.toLowerCase() === 'get') {
