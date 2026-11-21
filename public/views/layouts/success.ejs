@@ -4,7 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Success • LinkVault</title>
-  <link rel="stylesheet" href="/css/main.css"> <!-- your existing styles if any -->
+  <!-- Favicon -->
+  <link rel="icon" href="/icons/ico/logo.ico" sizes="any">
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="/icons/png/apple-tourch.png">
+
+  <link rel="preconnect" href="/style/font-icon/css/all.min.css" />
+  <link rel="stylesheet" href="/style/font-icon/css/all.min.css" />
+  <link rel="preconnect" href="/style/font/inter-family.woff2" />
+  <link rel="stylesheet" href="/style/properties.css" />
+  <link rel="stylesheet" href="/style/font.css" />
+  <link rel="stylesheet" href="/style/base.css" />
   <style>
     :root {
       --primary: #6366f1;
@@ -136,7 +146,7 @@
       document.getElementById('title').textContent = '<%= typeof title !== "undefined" ? title : "Success!" %>';
       document.getElementById('message').textContent = '<%= typeof successMessage !== "undefined" ? successMessage : "You have been signed in successfully." %>';
       document.getElementById('continueBtn').classList.remove('hidden');
-    }, 1600); // 1.6 seconds
+    }, 1800); // 1.8 seconds
   </script>
 </body>
 </html>
