@@ -1,0 +1,92 @@
+/* ===== Mobile Slide Sidebar ===== */
+
+/* Toggle button (hamburger) */
+.sidebar-toggle {
+  display: none;                 /* hidden on desktop */
+  background: none;
+  border: none;
+  padding: 8px;
+  margin-right: 12px;
+  cursor: pointer;
+  z-index: 1001;
+  color: inherit;
+}
+
+.sidebar-toggle .toggle-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 22px;
+}
+
+.sidebar-toggle .toggle-icon span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+
+/* Active state → X */
+.sidebar-toggle.is-active .toggle-icon span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.sidebar-toggle.is-active .toggle-icon span:nth-child(2) {
+  opacity: 0;
+}
+.sidebar-toggle.is-active .toggle-icon span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Overlay / Scrim */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+  z-index: 998;
+}
+
+.sidebar-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sidebar base (works with your existing .sidebar) */
+@media (max-width: 899px) {
+  .sidebar-toggle {
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: min(280px, 82vw);
+    z-index: 999;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+    /* keep your existing background, padding, etc. */
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  /* Optional: make main content full width on mobile */
+  .dashboard {
+    display: block; /* or keep your grid if you prefer */
+  }
+
+  .main-content {
+    width: 100%;
+    margin-left: 0 !important;
+  }
+}
