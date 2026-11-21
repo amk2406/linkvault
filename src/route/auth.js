@@ -82,7 +82,7 @@ auth.post('/signup', ratelimit, validatSignup, async (req, res, next) => {
             return res.status(500).render('auth/signup', {error: `Something went wrong while Process you Request — Your request didn't go through, Please try again in a few moments.`})
         }).then(async (inserted) =>{
             await createSession(req, res)
-            return res.status(302).redirect('/dashboard')
+            return res.status(201).render('layouts/success', {successMessage: 'You have been signed up successfully, You will be redirected to dashboard in a few moments.', title: 'Signed Up Successfully!'})
         })
     } catch (error) {
         error.fromstatic = true
