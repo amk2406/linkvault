@@ -62,7 +62,7 @@ app.use(helmet({
     }
   },
 }));
-app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static')))
+app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static'), {maxAge: '7d', immutable: true}));
 app.use(cookieParser(), async (req, res, next) => {
   req.userAgent = ua.parse(req.headers['user-agent']); next();
 });
