@@ -1,16 +1,14 @@
 // theme.js
-(function () {
   const STORAGE_KEY = 'theme';
   const DARK_CLASS = 'dark';
 
-  const html = document.documentElement;
-
+  const html = document.body;
   // Get saved theme or system preference
   function getPreferredTheme() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === 'dark' || saved === 'light') {
-      return saved;
-    }
+    //const saved = localStorage.getItem(STORAGE_KEY);
+    //if (saved === 'dark' || saved === 'light') {
+      //return saved;
+   // }
     // Fallback to system preference
     return window.matchMedia('(prefers-color-scheme: dark)').matches
       ? 'dark'
@@ -50,4 +48,3 @@
     set: applyTheme,
     get: () => (html.classList.contains(DARK_CLASS) ? 'dark' : 'light'),
   };
-})();
