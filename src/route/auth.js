@@ -3,7 +3,7 @@ const limit = require('express-rate-limit');
 const {validatSignin, validatSignup} = require('../services/form.validator');
 const users = require('../db').users
 const {createSession, removeSession, renewSession} = require('../services/session.manager')
-const { hash, compare} = require('../services/password.manager')
+const {hash, compare} = require('../services/password.manager')
 
 
 const auth = express.Router()
