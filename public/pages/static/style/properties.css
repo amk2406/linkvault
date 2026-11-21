@@ -157,7 +157,7 @@
      LAYOUT / COMPONENTS
   ======================================== */
   --header-height:        64px;
-  --sidebar-width:        260px;
+  --sidebar-width:        240px;
   --sidebar-collapsed:    72px;
   --container-max:        1200px;
   --container-padding:    var(--space-6);

@@ -38,13 +38,13 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <nav class="sidebar-nav">
-        <a href="/dashboard" class="sidebar-link">
+        <a href="/dashboard" class="sidebar-link active">
           <span class="fa fa-table-columns"></span> Dashboard
         </a>
         <a href="/links" class="sidebar-link">
           <span class="fa fa-link"></span> My Links
         </a>
-        <a href="/links/new" class="sidebar-link active">
+        <a href="/links/new" class="sidebar-link">
           <span class="fa fa-plus"></span> Create Link
         </a>
         <a href="/auth/logout" class="sidebar-link">
@@ -57,7 +57,7 @@
     <main class="main-content">
       <h1 class="page-title">Dashboard</h1>
       <p class="page-subtitle">
-        Welcome back<%= typeof user !== 'undefined' && user.name ? ', ' + user.name : '' %>. Here's what's happening with your links.
+        Welcome back<%= typeof user !== 'undefined' && user.name ? ', ' + user.name.split(' ')[0] : '' %>. Here's what's happening with your links.
       </p>
 
       <!-- Stats -->
