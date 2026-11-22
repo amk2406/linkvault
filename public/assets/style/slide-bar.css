@@ -12,11 +12,16 @@
   color: inherit;
 }
 
+.sidebar-toggle:hover {
+  background-color: var(--bg-secondary);
+  transition: var(--transition-fast);
+}
+
 .sidebar-toggle .toggle-icon {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 22px;
+  width: 20px;
 }
 
 .sidebar-toggle .toggle-icon span {
@@ -57,7 +62,7 @@
 }
 
 /* Sidebar base (works with your existing .sidebar) */
-@media (max-width: 899px) {
+@media (max-width: 800px) {
   .sidebar-toggle {
     display: flex;
     align-items: center;
@@ -65,7 +70,7 @@
 
   .sidebar {
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     height: 100%;
     width: min(280px, 82vw);

@@ -586,10 +586,6 @@ textarea {
 
 /* ========== Responsive ========== */
 @media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-
   .main-content {
     padding: var(--space-6) var(--space-4);
   }
