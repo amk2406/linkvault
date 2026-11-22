@@ -21,6 +21,14 @@
   <link href="/style/font.css" rel="stylesheet" />
   <link rel="stylesheet" href="/style/properties.css" />
   <link rel="stylesheet" href="/style/base.css" />
+  <link rel="stylesheet" href="/style/slide-bar.css" />
+  <style>
+  .main-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  </style>
 </head>
 <body>
   <!-- Header -->
@@ -65,7 +73,7 @@
           </div>
         <% } %>
 
-        <form action="/links" method="POST">
+        <form action="/url/api/link/new" method="POST">
           <!-- Destination URL -->
           <div class="form-group">
             <label class="form-label" for="url">Destination URL <span class="text-danger">*</span></label>
@@ -170,7 +178,7 @@
 
           <!-- Notes -->
           <div class="form-group">
-            <label class="form-label" for="notes">Notes (optional)</label>
+          <label class="form-label" for="notes">Notes (optional)</label>
             <textarea
               id="notes"
               name="notes"
@@ -198,6 +206,7 @@
       </div>
     </main>
   </div>
+  <script src="/script/slide-bar.js"></script>
   <script src="/script/theme-toggle.js"></script>
   <script>
     // Set min date for custom expiry to tomorrow
