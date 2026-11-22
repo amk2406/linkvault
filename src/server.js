@@ -25,6 +25,7 @@ const config = {
 
 const { getRetrySeconds } = require('./helpers/timer');
 const auth = require('./route/auth.js');
+const url = require('./route/url.js');
 const {validateSession, requireAuth} = require('./services/session.manager.js')
 const dashboard = require('./route/dashboard');
 const { users } = require('./db.js');
@@ -62,7 +63,10 @@ app.use(helmet({
     }
   },
 }));
-app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static'), {maxAge: '7d', immutable: true}));
+app.use(express.json({limit: '8kb'}), express.static(path.resolve('public', 'pages', 'static'), {
+  //maxAge: '7d',
+  //immutable: true
+}));
 app.use(cookieParser(), async (req, res, next) => {
   req.userAgent = ua.parse(req.headers['user-agent']); next();
 });
@@ -85,6 +89,7 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/auth', auth);
+app.use('/url', url);
 
 app.use(validateSession, express.static(path.resolve('public', 'assets/')), async (req, res, next) =>{
   try {

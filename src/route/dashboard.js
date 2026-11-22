@@ -22,6 +22,17 @@ app.get('/links', async (req, res, next) =>{
     }
 })
 
+app.get('/links/new', async (req, res, next) =>{
+    try {
+        const userdata = req.userdata || {}
+        res.status(200).render('links-new', { user: userdata })
+    } catch (error) {
+        error.fromstatic = true;
+        next(error)
+    }
+})
+
+
 app.get('/auth/logout', removeAllSessions, async (req, res, next)=>{
     try {
         res.status(200).render('logout', { user:userdata })
