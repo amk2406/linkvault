@@ -8,7 +8,7 @@
 (function () {
   'use strict';
 
-  const BREAKPOINT = 900; // px – change if you want
+  const BREAKPOINT = 800; // px – change if you want
   const SIDEBAR_SELECTOR = '.sidebar';
   const TOGGLE_ID = 'sidebar-toggle';
   const OVERLAY_ID = 'sidebar-overlay';
